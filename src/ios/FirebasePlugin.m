@@ -3,7 +3,7 @@
 #import "AppDelegate+FirebasePlugin.h"
 #import <Cordova/CDV.h>
 #import "AppDelegate.h"
-#import <GoogleSignIn/GoogleSignIn.h>
+// #import <GoogleSignIn/GoogleSignIn.h>
 @import FirebaseMessaging;
 @import FirebaseAnalytics;
 @import FirebaseRemoteConfig;
@@ -62,7 +62,7 @@ static FIROAuthProvider* oauthProvider;
 - (void)applicationLaunchedWithUrl:(NSNotification*)notification
 {
     NSURL* url = [notification object];
-    [[GIDSignIn sharedInstance] handleURL:url];
+    // [[GIDSignIn sharedInstance] handleURL:url];
 }
 
 // @override abstract
@@ -178,7 +178,7 @@ static FIROAuthProvider* oauthProvider;
 // @override abstract
 - (void)handleOpenURL:(NSNotification*)notification{
     NSURL* url = [notification object];
-    [GIDSignIn.sharedInstance handleURL:url];
+    // [GIDSignIn.sharedInstance handleURL:url];
 }
 
 /*************************************************/
@@ -993,43 +993,43 @@ static FIROAuthProvider* oauthProvider;
     }
 }
 
-- (void)authenticateUserWithGoogle:(CDVInvokedUrlCommand*)command{
-    @try {
-        __weak __auto_type weakSelf = self;
-        GIDConfiguration* googleSignInConfig = [[GIDConfiguration alloc] initWithClientID:[FIRApp defaultApp].options.clientID];
-        [GIDSignIn.sharedInstance signInWithConfiguration:googleSignInConfig presentingViewController:self.viewController callback:^(GIDGoogleUser * _Nullable user, NSError * _Nullable error) {
-          __auto_type strongSelf = weakSelf;
-          if (strongSelf == nil) { return; }
+// - (void)authenticateUserWithGoogle:(CDVInvokedUrlCommand*)command{
+//     @try {
+//         __weak __auto_type weakSelf = self;
+//         GIDConfiguration* googleSignInConfig = [[GIDConfiguration alloc] initWithClientID:[FIRApp defaultApp].options.clientID];
+//         [GIDSignIn.sharedInstance signInWithConfiguration:googleSignInConfig presentingViewController:self.viewController callback:^(GIDGoogleUser * _Nullable user, NSError * _Nullable error) {
+//           __auto_type strongSelf = weakSelf;
+//           if (strongSelf == nil) { return; }
 
-            @try{
-                CDVPluginResult* pluginResult;
-                if (error == nil) {
-                    GIDAuthentication *authentication = user.authentication;
-                    FIRAuthCredential *credential =
-                    [FIRGoogleAuthProvider credentialWithIDToken:authentication.idToken
-                                                   accessToken:authentication.accessToken];
+//             @try{
+//                 CDVPluginResult* pluginResult;
+//                 if (error == nil) {
+//                     GIDAuthentication *authentication = user.authentication;
+//                     FIRAuthCredential *credential =
+//                     [FIRGoogleAuthProvider credentialWithIDToken:authentication.idToken
+//                                                    accessToken:authentication.accessToken];
 
-                    NSNumber* key = [[FirebasePlugin firebasePlugin] saveAuthCredential:credential];
-                    NSString *idToken = user.authentication.idToken;
-                    NSMutableDictionary* result = [[NSMutableDictionary alloc] init];
-                    [result setValue:@"true" forKey:@"instantVerification"];
-                    [result setValue:key forKey:@"id"];
-                    [result setValue:idToken forKey:@"idToken"];
-                    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:result];
-                } else {
-                    pluginResult = [self createAuthErrorResult:error];
-                }
-                [[FirebasePlugin firebasePlugin].commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-            }@catch (NSException *exception) {
-                [FirebasePlugin.firebasePlugin handlePluginExceptionWithoutContext:exception];
-            }
-        }];
+//                     NSNumber* key = [[FirebasePlugin firebasePlugin] saveAuthCredential:credential];
+//                     NSString *idToken = user.authentication.idToken;
+//                     NSMutableDictionary* result = [[NSMutableDictionary alloc] init];
+//                     [result setValue:@"true" forKey:@"instantVerification"];
+//                     [result setValue:key forKey:@"id"];
+//                     [result setValue:idToken forKey:@"idToken"];
+//                     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:result];
+//                 } else {
+//                     pluginResult = [self createAuthErrorResult:error];
+//                 }
+//                 [[FirebasePlugin firebasePlugin].commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+//             }@catch (NSException *exception) {
+//                 [FirebasePlugin.firebasePlugin handlePluginExceptionWithoutContext:exception];
+//             }
+//         }];
 
-        [self sendPluginNoResultAndKeepCallback:command callbackId:command.callbackId];
-    }@catch (NSException *exception) {
-        [self handlePluginExceptionWithContext:exception :command];
-    }
-}
+//         [self sendPluginNoResultAndKeepCallback:command callbackId:command.callbackId];
+//     }@catch (NSException *exception) {
+//         [self handlePluginExceptionWithContext:exception :command];
+//     }
+// }
 
 - (void)authenticateUserWithApple:(CDVInvokedUrlCommand*)command{
     @try {
@@ -1188,18 +1188,18 @@ static FIROAuthProvider* oauthProvider;
         if([self userNotSignedInError:command]) return;
 
         // If signed in with Google
-        if([GIDSignIn.sharedInstance currentUser] != nil){
-            // Sign out of Google
-            [GIDSignIn.sharedInstance disconnectWithCallback:^(NSError * _Nullable error) {
-                if (error) {
-                    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[NSString stringWithFormat:@"Error signing out of Google: %@", error]] callbackId:command.callbackId];
-                }
+        // if([GIDSignIn.sharedInstance currentUser] != nil){
+        //     // Sign out of Google
+        //     [GIDSignIn.sharedInstance disconnectWithCallback:^(NSError * _Nullable error) {
+        //         if (error) {
+        //             [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[NSString stringWithFormat:@"Error signing out of Google: %@", error]] callbackId:command.callbackId];
+        //         }
 
-                [self signOutOfFirebase:command];
-            }];
-        }else{
+        //         [self signOutOfFirebase:command];
+        //     }];
+        // }else{
             [self signOutOfFirebase:command];
-        }
+        // }
     }@catch (NSException *exception) {
         [self handlePluginExceptionWithContext:exception :command];
     }
