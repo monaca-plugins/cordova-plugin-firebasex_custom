@@ -993,7 +993,7 @@ static FIROAuthProvider* oauthProvider;
     }
 }
 
-// - (void)authenticateUserWithGoogle:(CDVInvokedUrlCommand*)command{
+- (void)authenticateUserWithGoogle:(CDVInvokedUrlCommand*)command{
 //     @try {
 //         __weak __auto_type weakSelf = self;
 //         GIDConfiguration* googleSignInConfig = [[GIDConfiguration alloc] initWithClientID:[FIRApp defaultApp].options.clientID];
@@ -1027,9 +1027,9 @@ static FIROAuthProvider* oauthProvider;
 
 //         [self sendPluginNoResultAndKeepCallback:command callbackId:command.callbackId];
 //     }@catch (NSException *exception) {
-//         [self handlePluginExceptionWithContext:exception :command];
+        [self handlePluginExceptionWithContext:exception :command];
 //     }
-// }
+}
 
 - (void)authenticateUserWithApple:(CDVInvokedUrlCommand*)command{
     @try {
