@@ -1027,7 +1027,9 @@ static FIROAuthProvider* oauthProvider;
 
 //         [self sendPluginNoResultAndKeepCallback:command callbackId:command.callbackId];
 //     }@catch (NSException *exception) {
-        [self handlePluginExceptionWithContext:exception :command];
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"No GoogleSignin"];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+//         [self handlePluginExceptionWithContext:exception :command];
 //     }
 }
 
