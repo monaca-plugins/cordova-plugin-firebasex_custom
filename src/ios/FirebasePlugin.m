@@ -15,6 +15,10 @@
 @import CommonCrypto;
 @import AuthenticationServices;
 
+/*
+* Modifications copyright (C) 2023 Asial Corporation.
+*/
+
 @implementation FirebasePlugin
 
 @synthesize openSettingsCallbackId;
