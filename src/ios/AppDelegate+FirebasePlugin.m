@@ -3,6 +3,9 @@
 #import "FirebaseWrapper.h"
 #import <objc/runtime.h>
 
+/*
+* Modifications copyright (C) 2023 Asial Corporation.
+*/
 
 @import UserNotifications;
 @import FirebaseFirestore;
